@@ -36,6 +36,8 @@ export default (state = initialState, action)=>{
       })
     case 'clear complete':
       return state.filter(todo => todo.completed === false)
+    default:
+      return state;
   }
 }
 
