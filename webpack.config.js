@@ -28,7 +28,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: /client/,
+        include: [/client/, /node_modules\/react-toolbox/],
         loaders: [
           'style-loader',
           'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]',
@@ -51,13 +51,15 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    fallback: path.join(__dirname, "node_modules")
   },
-  postcss: [
-    rucksack({
-      autoprefixer: true
-    })
-  ],
+  resolveLoader: { fallback: path.join(__dirname, "node_modules") },
+  // postcss: [
+  //   rucksack({
+  //     autoprefixer: true
+  //   })
+  // ],
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
