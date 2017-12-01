@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 
 import App from './components/App'
-import Home from './components/Home'
+//import Home from './components/Home'
 import Login from './components/player/Login'
 import RegisterPlayer from './components/player/RegisterPlayer'
 import Account from './components/player/Account'
@@ -15,7 +15,8 @@ import EditProfile from './components/player/EditProfile'
 import Rinks from './components/rink/Rinks'
 import Rink from './components/rink/Rink'
 import PlayTimes from './components/playTime/PlayTimes'
-
+import AddPlayTime from './components/playTime/AddPlayTime'
+import Traffic from './components/playTime/Traffic'
 
 
 //import * as playerActions from './actions/player'
@@ -36,18 +37,16 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={App}>
-                <IndexRoute component={Home}/>
+                <IndexRoute component={Rinks}/>
                 <Route path="login" component={Login} />
                 <Route path="register" component={RegisterPlayer}/>
                 <Route path="account" component={Account}>
-                  <IndexRoute component={Profile}/>
-                  <Route path="/account/profile-edit" component={EditProfile}/>
-                  <Route path="/account/play-times/:playerId" component={PlayTimes}/>
+                    <IndexRoute component={Profile}/>
+                    <Route path="/account/edit-profile" component={EditProfile}/>
+                    <Route path="/account/playtimes/:playerId" component={PlayTimes}/>
                 </Route>
                 <Route path="rinks" component={Rinks}/>
                 <Route path="rinks/:id" component={Rink}/>
-
-
             </Route>
         </Router>
     </Provider>,

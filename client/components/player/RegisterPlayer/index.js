@@ -37,7 +37,7 @@ class RegisterPlayer extends Component {
         return res.json()
           .then(player => {
             this.props.actions.addPlayer(player);
-            this.props.goToAccount();
+            this.props.goToRinks();
           })
       } 
       else {
@@ -57,7 +57,8 @@ class RegisterPlayer extends Component {
         <div>
         {
           [this.attrs.map((key)=>{
-            return <Input type="text" name={key} value={this.state.player[key]} onChange={this.handle[key]} label={key}/>
+            const inputType = (key === 'hash')? "password" : "text";
+            return <Input type={inputType} name={key} value={this.state.player[key]} onChange={this.handle[key]} label={key}/>
           })]
         }
         <button onClick={this.registerPlayer}> save </button>
@@ -75,7 +76,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    goToAccount:()=>dispatch(RouterActions.goToAccount()),
+    
+    goToRinks:()=>dispatch(RouterActions.goToRinks()),
+    //goToAccount:()=>dispatch(RouterActions.goToAccount()),
     
     actions: {
       addPlayer: (payload)=>dispatch(PlayerActions.addPlayer(payload)),

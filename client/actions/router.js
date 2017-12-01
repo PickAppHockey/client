@@ -19,11 +19,16 @@ export const goToAccount = ()=>{
 }
 
 export const goToEditProfile = ()=>{
-  return push("/account/profile-edit/");
+  return push("/account/edit-profile/");
 }
 
+
 export const goToPlayTimes = (playerId)=>{
-  return push("/account/play-times/"+playerId);
+  return push("/account/playtimes/"+playerId);
+}
+
+export const goToAddPlayTime = (rinkId)=>{
+  return push("/rinks/" + rinkId + "/add-playtime");
 }
 
 export const goToRinks = ()=>{

@@ -5,6 +5,8 @@ import * as RouterActions from '../../../actions/router'
 import AddPlayTime from "../../playTime/AddPlayTime";
 import Traffic from "../../playTime/Traffic";
 import React from 'react';
+import style from './style.css';
+import Button from 'ui/Button';
 
 class Rink extends React.Component{
 
@@ -30,9 +32,15 @@ class Rink extends React.Component{
         return(
             <div>
                 <h1> {(rink) ? rink.name: "Rink"} </h1>
-                {(rink) && <Traffic rinkId={rink.id} date={startDate}/>}
-                {(this.props.player) && <AddPlayTime rink={rink}/>}
+                <div className={style.rinkContentContainer}>
+                    {(rink) && <Traffic rinkId={rink.id} date={startDate}/>}
+                    {/* <div>
+                        {(rink) &&  <Button onClick={()=>this.state.goToAddPlayTime(rink.id)}> Commit PlayTime </Button>}
+                    </div> */}
+                   
+                    {(this.props.player) && <AddPlayTime rink={rink}/>}
 
+                </div>
             </div>
         )
 
@@ -50,6 +58,8 @@ function mapStateToProps(state) {
   function mapDispatchToProps(dispatch) {
     return {
       goToRinks:()=>dispatch(RouterActions.goToRinks()),
+      goToAddPlayTime:(rinkId)=>dispatch(RouterActions.goToAddPlayTime(rinkId)),
+      
       
       
       actions: {

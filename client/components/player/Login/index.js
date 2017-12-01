@@ -28,7 +28,7 @@ class Login extends Component {
             .then(player => {
               if(player === null){return alert("failed login attempt")}
                 this.props.actions.login(player);
-                this.props.goToAccount();
+                this.props.goToRinks();
             })
         } 
         else {
@@ -42,14 +42,14 @@ class Login extends Component {
     
   }
 
-  setUsername = (e)=> {
-    let username = e.target.value;
+  setUsername = (val)=> {
+    let username = val;
     this.setState({username: username});
   }
 
-  setPassword = (e)=>{
+  setPassword = (val)=>{
     
-    let hash = e.target.value;
+    let hash = val;
     this.setState({hash: hash});
   }
 
@@ -61,10 +61,10 @@ class Login extends Component {
         <div>
           <div>
             {/* <label htmlFor="username"> username </label> */}
-            <Input label={"username"} onChange={this.setUsername} type="text" id="username"/>
+            <Input value={this.state.username} label={"username"} onChange={this.setUsername} type="text" id="username"/>
 
             {/* <label htmlFor="password"> password </label> */}
-            <Input label={"password"} onChange={this.setPassword} type="text" id="password"/>
+            <Input value={this.state.hash} label={"password"} onChange={this.setPassword} type="password" id="password"/>
           </div>
           <Button onClick={this.handleSave}> login </Button>
         </div>
@@ -82,6 +82,7 @@ function mapDispatchToProps(dispatch) {
   return {
     goToAccount:()=>dispatch(RouterActions.goToAccount()),
     goToRegister:()=>dispatch(RouterActions.goToRegister()),
+    goToRinks:()=>dispatch(RouterActions.goToRinks()),
     
     
     actions: {

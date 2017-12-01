@@ -6,13 +6,14 @@ import * as RouterActions from '../../../actions/router'
 import Navigation from 'react-toolbox/lib/navigation';
 import services from '../../../services/player'
 import style from './style.css'
+import Button from 'ui/Button';
 
 
 
 
 
 
-class Profile extends Component {
+class Account extends Component {
   constructor(){
     super()
     this.state = {
@@ -32,7 +33,7 @@ class Profile extends Component {
     let player = props.player;
     let profileLink = <a key="1" className={style.link} onClick={()=>this.clickHandler("profile", props.goToAccount)}> back </a>
     let editLink = <a key="2" className={style.link} onClick={()=>this.clickHandler("edit",props.goToEditProfile)}>Edit</a>
-    let playTimeLink = <a key="3" className={style.link} onClick={()=>this.clickHandler("playTimes", props.goToPlayTimes(player.id))}> play-times</a>
+    let playTimeLink = <a key="3" className={style.link} onClick={()=>this.clickHandler("playTimes", ()=>props.goToPlayTimes(player.id))}> play-times</a>
     
     let links = [];
     if(this.state.showBackBtn){links.push(profileLink)}
@@ -45,7 +46,7 @@ class Profile extends Component {
     return (
 
       <div>
-        <h1>{player.username}</h1>
+        <h1>{(player) && player.username}</h1>
         {links}
         {this.props.children}
       </div>
@@ -76,7 +77,7 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Profile)
+)(Account)
 
 
 //export default Profile

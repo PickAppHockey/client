@@ -17,6 +17,14 @@ export const login = (payload)=>{
   })
 }
 
+export const logout = (payload)=>{
+  return ({
+    type: 'Logout',
+    payload,
+  })
+}
+
+
 export const editPlayer = (payload)=>({
   type: 'Edit Player',
   payload,

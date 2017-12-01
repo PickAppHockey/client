@@ -4,10 +4,10 @@
 
 
 
-const initialState =null;
+const initialState =
 {
-  // id: '89be9a60-d51c-11e7-a9c1-31710a99f543',
-  // username: "bob"
+  id: 'b779e7e0-d54c-11e7-9cc8-1f638c2e3d35',
+  username: "bob"
 }
 
 export default (state = initialState, action)=>{
@@ -16,6 +16,9 @@ export default (state = initialState, action)=>{
       return action.payload;
 
     case "Login":
+      return action.payload;
+
+    case "Logout":
       return action.payload;
 
     case "Edit Player":

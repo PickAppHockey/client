@@ -6,6 +6,7 @@ import React from 'react';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import Input from 'react-toolbox/lib/input';
 import PlayTimeInput from '../PlayTimeInput';
+import style from './style.css';
 const uuidv1 = require('uuid/v1');
 const PlayTimeDto = require('shared/Contracts/DTOs/PlayTimeDto')
 
@@ -50,9 +51,9 @@ class AddPlayTime extends React.Component{
         let playTime = (this.props.rink) && this.getDefaultPlayTime();
 
         return(
-            <div>
-                <h1> AddPlayTime </h1>
-                {playTime && <PlayTimeInput playTime={playTime} action={this.addPlayTime}/>}
+            <div className={style.addPlayTimeContainer}>
+                <h3> AddPlayTime </h3>
+                {playTime && <PlayTimeInput isNew={true} playTime={playTime} onSave={this.addPlayTime}/>}
             </div>
         )
     }

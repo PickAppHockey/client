@@ -12,7 +12,7 @@ import * as PlayerActions from '../../actions/player'
 import * as RinkActions from '../../actions/rink'
 
 import * as RouterActions from '../../actions/router'
-
+import NavMenu from './NavMenu'
 import style from './style.css'
 
 
@@ -62,9 +62,9 @@ class App extends Component {
       <div>
         <AppBar title="PickApp Hockey">
           <Navigation type='horizontal'>
-            <a className={style.link} onClick={this.props.goToHome}>Home</a>
             <a className={style.link} onClick={this.props.goToRinks}>Rinks</a>
             {link}
+            <NavMenu/>
 
           </Navigation>
         </AppBar>

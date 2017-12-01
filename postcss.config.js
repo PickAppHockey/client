@@ -1,6 +1,10 @@
 module.exports = {
-    plugins: {
-      'postcss-modules': {},
-      'postcss-css-variables':{}
+  plugins: {
+    'postcss-import': {
+      root: __dirname,
     },
-  };
+    'postcss-mixins': {},
+    'postcss-each': {},
+    'postcss-cssnext': {}
+  },
+};

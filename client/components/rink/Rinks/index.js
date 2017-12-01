@@ -3,43 +3,29 @@ import services from '../../../services/rink'
 //import * as PlayerActions from '../../../actions/player'
 import * as RouterActions from '../../../actions/router'
 import { List, ListItem, ListSubHeader, ListDivider, ListCheckbox } from 'react-toolbox/lib/list';
-
-
+import MyMapComponent from "ui/Map/Map"
 import React from 'react';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 
 
 class Rinks extends React.Component{
     render(){
-        let rinks = this.props.rinks;
-
-        let listRinks = rinks.map((rink)=> {
-            return(
-
-                <ListItem
-                    //avatar='https://dl.dropboxusercontent.com/u/2247264/assets/m.jpg'
-                    key={rink.id}
-                    caption={rink.name}
-                    onClick={()=>this.props.goToRink(rink.id)}
-                    //legend="Jonathan 'Jon' Osterman"
-                    //rightIcon='star'
-                />
-                // <li key={rink.id}>
-                //     <a onClick={()=>this.props.goToRink(rink.id)}>{rink.name}</a>
-                // </li>
-            ) 
-            
-        });
-        return(
+        return (
             <div>
-                {/* <h1> Rinks </h1> */}
-
-                <List selectable ripple>
-                    <ListSubHeader caption="rinks" />
-                    {listRinks}
-                </List>
-     
-            </div>
+                <h1> Toronto Rinks </h1>
+                <MyMapComponent
+                    rinks={this.props.rinks}
+                    isMarkerShown
+                    googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `400px` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                    />
+   
+         </div>
+   
         )
+
     }
 }
 

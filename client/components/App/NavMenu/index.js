@@ -1,29 +1,81 @@
+import { connect } from 'react-redux'
+import * as RouterActions from 'actions/router'
+import * as PlayerActions from 'actions/player'
 import React from 'react';
 import {IconMenu, MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
 
-
 class NavMenu extends React.Component{
-    showMenu = ()=>{
-        return(
-            <IconMenu icon='more_vert' position='topLeft' menuRipple>
-                <MenuItem value='download' icon='get_app' caption='Download' />
-                <MenuItem value='help' icon='favorite' caption='Favorite' />
-                <MenuItem value='settings' icon='open_in_browser' caption='Open in app' />
-                <MenuDivider />
-                <MenuItem value='signout' icon='delete' caption='Delete' disabled />
-            </IconMenu>
-        )
+
+
+    logout=()=>{
+        this.props.actions.logout(null)
+        this.props.goToRinks();
+    }
+
+
+    getMenuItems=()=>{
+        const player = this.props.plaer || {}
+        let profileItems = [
+            <MenuItem disabled={true} caption={"Profile"} />,
+            <MenuItem disabled={true} caption={"Position: " + player.position} />,
+            <MenuItem disabled={true} caption={"Skill Level: " + player.skillLevel} />,
+            <MenuItem disabled={true} caption={"Gender: " + player.gender} />,
+            <MenuDivider />,
+            <MenuItem onClick={this.props.goToEditProfile} caption={"edit profile"} />,
+            <MenuDivider />,
+            <MenuItem onClick={this.props.goToPlayTimes} caption={"playtimes"} />,
+            <MenuDivider />,
+
+        ]
+        let otherItems = [
+            <MenuItem onClick={this.logout} caption={"logout"} />,
+        ]
+
+
+        if(this.props.player){
+            return [...profileItems, ...otherItems]
+        }
+        return otherItems;
+        
     }
     render(){
-        
-        return(
-            <button onClick={this.showMenu}> ||| </button>
-        )
-
-    }            
+        return (
+            <IconMenu icon='more_vert' position='topRight' menuRipple>
+                {this.getMenuItems()}
+            </IconMenu>
+          )
+    };
           
     
-    
+
 }
 
-export default NavMenu;
+
+
+function mapStateToProps(state) {
+    return {
+      rinks: state.player
+    }
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return {
+      //goToRink:(id)=>dispatch(RouterActions.goToRink(id)),
+      goToEditProfile:()=>dispatch(RouterActions.goToEditProfile()),
+      goToPlayTimes:(id)=>dispatch(RouterActions.goToPlayTimes(id)),
+      goToRinks:()=>dispatch(RouterActions.goToRinks()),
+      
+      
+      actions: {
+        logout: (payload)=>dispatch(PlayerActions.logout(payload)),
+      }
+    }
+  }
+  
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(NavMenu)
+
+

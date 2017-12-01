@@ -5,8 +5,12 @@ import * as RouterActions from '../../../actions/router'
 import React from 'react';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import Input from 'react-toolbox/lib/input';
+import moment from 'moment';
+import TimePicker from 'ui/TimePicker';
+import Button from 'ui/Button';
 const uuidv1 = require('uuid/v1');
 const PlayTimeDto = require('shared/Contracts/DTOs/PlayTimeDto')
+
 
 
 
@@ -15,50 +19,80 @@ class PlayTimeInput extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            playTime: this.props.playTime,
-            duration: (this.props.playTime.endDateTime - this.props.playTime.startDateTime)/60000,
+            //playTime: this.props.playTime
+            startDateTime: null,
+            duration: null
+            
+            
+            //time: this.props.playTime.startDateTime.getTime(),
+            //duration: (this.props.playTime.endDateTime - this.props.playTime.startDateTime)/60000,
+
         }
     }
 
+    componentWillMount(){
+        this.setInitialValues();
+    }
 
-    handleDateChange = (value) => {
-        debugger;   
-        let playTime = Object.assign({}, this.state.playTime);
-        playTime.startDateTime = value;
-        this.setState({playTime});
+    componentDidUpdate(prevProps){
+        if(this.props.playTime !== prevProps.playTime){
+            this.setInitialValues();
+        }
+    }
+
+    setInitialValues(){
+        let startDateTime = this.props.playTime.startDateTime;
+        let duration = this.getDurationMin(this.props.playTime);
+        this.setState({startDateTime, duration});            
+    }
+
+    getDurationMin=(playTime)=>{
+        let start =moment(playTime.startDateTime);
+        let end = moment(playTime.endDateTime);
+        var duration = moment.duration(end.diff(start));
+        var minutes = duration.asMinutes();
+        return minutes;
+    }
+
+
+
+    handleDurationChange = (duration) => {        
+        this.setState({duration});
     };
 
 
-    handleDurationChange = (value) => {
-        let startDateTime = this.state.playTime.startDateTime;
-        let endDateTime = new Date(startDateTime.getTime() + value*60*60000);
-        let playTime = Object.assign({}, this.state.playTime);
-        playTime.endDateTime = endDateTime;
-
-        this.setState({playTime});
+    handleDateTimeChange = (value) => {
+        let startDateTime = new Date(value);
+        this.setState({startDateTime});
     };
 
 
 
     handleSave = () => {
-        debugger;
-        this.props.action(this.state.playTime);
+
+        let playTime = this.props.playTime;
+        playTime.startDateTime = this.state.startDateTime;
+        playTime.endDateTime = moment(playTime.startDateTime).add(this.state.duration,"minutes");
+        this.props.onSave(playTime);
+    };
+
+    handleRemove = () => {
+        this.props.onRemove(this.state.playTime);
     };
     
-    getDurationMin=()=>{
-        let playTime = this.state.playTime;
-        let durationMin = (playTime.endDateTime - playTime.startDateTime)/60000;
-        return durationMin;
-    }
+
 
 
     render(){
-
         return(
             <div>
-                <DatePicker label='date' sundayFirstDayOfWeek={true} onChange={this.handleDateChange} value={this.state.playTime.startDateTime} />
-                <Input type="text" name="duration" value={this.getDurationMin()} onChange={this.handleDurationChange} label="duration(minutes)"/>
-                <button onClick={this.handleSave}> save </button>
+                <DatePicker label='date' sundayFirstDayOfWeek={true} onChange={this.handleDateTimeChange} value={this.state.startDateTime} />
+                <TimePicker label="start time" onChange={this.handleDateTimeChange} value={this.state.startDateTime}/>
+                <Input type="text" name="duration" value={this.state.duration} onChange={this.handleDurationChange} label="duration(minutes)"/>
+                <div>
+                        <Button onClick={this.handleSave}> save </Button>
+                        {!this.props.isNew && <Button onClick={this.handleRemove}> remove </Button>}
+                </div>
             </div>
         )
     }
